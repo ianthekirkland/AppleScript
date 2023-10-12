@@ -1,0 +1,1769 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf600
+{\fonttbl\f0\fnil\fcharset0 Verdana-Italic;\f1\fnil\fcharset0 Verdana;\f2\fnil\fcharset0 Verdana-Bold;
+\f3\fnil\fcharset0 LucidaGrande;\f4\fnil\fcharset0 NotoSansNKo;\f5\fnil\fcharset222 Thonburi;
+\f6\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red77\green78\blue78;\red108\green5\blue211;\red0\green0\blue255;
+\red64\green128\blue0;\red251\green0\blue7;}
+{\*\expandedcolortbl;;\csgenericrgb\c30000\c30500\c30500;\csgenericrgb\c42300\c1800\c82800;\csgenericrgb\c0\c0\c99819;
+\csgenericrgb\c25000\c50000\c0;\cssrgb\c100000\c0\c0;}
+\deftab480
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f0\i\fs24 \cf2 --
+\f1\i0 \cf0 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f0\i \cf2 --	Created by: Shane Stanley
+\f1\i0 \cf0 \
+
+\f0\i \cf2 --	Created on: 15/7/19
+\f1\i0 \cf0 \
+
+\f0\i \cf2 --
+\f1\i0 \cf0 \
+
+\f0\i \cf2 --	Copyright \'a9 2019 Shane Stanley All Rights Reserved
+\f1\i0 \cf0 \
+
+\f0\i \cf2 --
+\f1\i0 \cf0 \
+\
+
+\f2\b \cf0 use
+\f1\b0 \cf0  \cf3 AppleScript\cf0  \cf4 version\cf0  \cf0 "2.4"\cf0  
+\f0\i \cf2 -- macOS 10.10 or later
+\f1\i0 \cf0 \
+
+\f2\b \cf0 use
+\f1\b0 \cf0  
+\f0\i \cf4 framework
+\f1\i0 \cf0  \cf0 "Foundation"\cf0 \
+
+\f2\b \cf0 use
+\f1\b0 \cf0  
+\f0\i \cf4 scripting additions
+\f1\i0 \cf0 \
+\
+
+\f0\i \cf2 -- classes, constants, and enums used
+\f1\i0 \cf0 \
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 NSCharacterSet\cf0  : 
+\f2\b \cf0 a reference
+\f1\b0 \cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf3 current application's\cf0  \cf5 NSCharacterSet\cf0 \
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 NSMutableString\cf0  : 
+\f2\b \cf0 a reference
+\f1\b0 \cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf3 current application's\cf0  \cf5 NSMutableString\cf0 \
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 NSMutableArray\cf0  : 
+\f2\b \cf0 a reference
+\f1\b0 \cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf3 current application's\cf0  \cf5 NSMutableArray\cf0 \
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 NSRegularExpression\cf0  : 
+\f2\b \cf0 a reference
+\f1\b0 \cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf3 current application's\cf0  \cf5 NSRegularExpression\cf0 \
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 NSLocale\cf0  : 
+\f2\b \cf0 a reference
+\f1\b0 \cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf3 current application's\cf0  \cf5 NSLocale\cf0 \
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 NSArray\cf0  : 
+\f2\b \cf0 a reference
+\f1\b0 \cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf3 current application's\cf0  \cf5 NSArray\cf0 \
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 NSString\cf0  : 
+\f2\b \cf0 a reference
+\f1\b0 \cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf3 current application's\cf0  \cf5 NSString\cf0 \
+\
+
+\f2\b \cf0 property
+\f1\b0 \cf0  \cf5 theSentinal\cf0  : \cf0 "
+\f3 \uc0\u684 
+\f4 \uc0\u2003 
+\f5 \'aa
+\f6 \uc0\u4312 
+\f1 "\cf0  
+\f0\i \cf2 -- used as a marker to split and join lists
+\f1\i0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 lowercase from
+\f1\b0 \cf0  \cf5 theValue\cf0  \cf4 using locale\cf0  \cf5 localizing\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 theValue\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theValue\cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 localizing\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 localizedLowercaseString\cf0 ()) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 lowercaseString\cf0 ()) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 theValue\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSArray's\cf0  \cf6 arrayWithArray\cf0 :\cf5 theValue\cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 localizing\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList's\cf0  \cf6 valueForKey\cf0 :\cf0 "localizedLowercaseString"\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList's\cf0  \cf6 valueForKey\cf0 :\cf0 "lowercaseString"\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf0 "Value is not a string or list."\cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 lowercase from
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 uppercase from
+\f1\b0 \cf0  \cf5 theValue\cf0  \cf4 using locale\cf0  \cf5 localizing\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 theValue\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theValue\cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 localizing\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 localizedUppercaseString\cf0 ()) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 uppercaseString\cf0 ()) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 theValue\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSArray's\cf0  \cf6 arrayWithArray\cf0 :\cf5 theValue\cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 localizing\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList's\cf0  \cf6 valueForKey\cf0 :\cf0 "localizedUppercaseString"\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList's\cf0  \cf6 valueForKey\cf0 :\cf0 "uppercaseString"\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf0 "Value is not a string or list."\cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 uppercase from
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 titlecase from
+\f1\b0 \cf0  \cf5 theValue\cf0  \cf4 using locale\cf0  \cf5 localizing\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 theValue\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theValue\cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 localizing\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 localizedCapitalizedString\cf0 ()) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 capitalizedString\cf0 ()) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 theValue\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSArray's\cf0  \cf6 arrayWithArray\cf0 :\cf5 theValue\cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 localizing\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList's\cf0  \cf6 valueForKey\cf0 :\cf0 "localizedCapitalizedString"\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList's\cf0  \cf6 valueForKey\cf0 :\cf0 "capitalizedString"\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf0 "Value is not a string or list."\cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 titlecase from
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 split string
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 using delimiters\cf0  \cf5 splitters\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \{\cf5 saveTID\cf0 , \cf3 AppleScript's\cf0  \cf3 text item delimiters\cf0 \} 
+\f2\b \cf0 to
+\f1\b0 \cf0  \{\cf3 AppleScript's\cf0  \cf3 text item delimiters\cf0 , \cf5 splitters\cf0 \}\
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  
+\f0\i \cf4 text items
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 theString\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf3 AppleScript's\cf0  \cf3 text item delimiters\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 saveTID\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf5 theList\cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 split string
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 join strings
+\f1\b0 \cf0  \cf5 theList\cf0  \cf4 using delimiter\cf0  \cf5 joinerString\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \{\cf5 saveTID\cf0 , \cf3 AppleScript's\cf0  \cf3 text item delimiters\cf0 \} 
+\f2\b \cf0 to
+\f1\b0 \cf0  \{\cf3 AppleScript's\cf0  \cf3 text item delimiters\cf0 , \{\cf5 joinerString\cf0 \}\}\
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theList\cf0  
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf3 AppleScript's\cf0  \cf3 text item delimiters\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 saveTID\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf5 theString\cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 join strings
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 regex search
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 search pattern\cf0  \cf5 thePattern\cf0  \cf4 match case\cf0  \cf5 matchCase\cf0  : \cf3 false\cf0  \cf4 dot matches all\cf0  \cf5 dotMatchesAll\cf0  : \cf3 false\cf0  \cf4 anchors match lines\cf0  \cf5 anchorsMatchLines\cf0  : \cf3 true\cf0  \cf4 Unicode boundaries\cf0  \cf5 unicodeBoundaries\cf0  : \cf3 false\cf0  \cf4 replace template\cf0  \cf5 replaceTemplate\cf0  : (
+\f0\i \cf4 missing value
+\f1\i0 \cf0 ) \cf4 capture groups\cf0  \cf5 captureGroup\cf0  : \cf0 0\cf0  \cf4 using sentinal\cf0  \cf5 useSentinal\cf0  : \cf3 true\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (
+\f2\b \cf0 not
+\f1\b0 \cf0  \cf5 matchCase\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 dotMatchesAll\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 8\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 anchorsMatchLines\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 16\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 unicodeBoundaries\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 64\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \{\cf5 theRegex\cf0 , \cf5 theError\cf0 \} 
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSRegularExpression's\cf0  \cf6 regularExpressionWithPattern\cf0 :\cf5 thePattern\cf0  \cf6 options\cf0 :\cf5 theOpts\cf0  \cf6 |error|\cf0 :(
+\f0\i \cf4 reference
+\f1\i0 \cf0 )\
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 theRegex\cf0  = 
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf5 theError's\cf0  \cf6 localizedDescription\cf0 () 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSMutableString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 replaceTemplate\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 and
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 captureGroup\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 replaceTemplate\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf0 "$"\cf0  & \cf5 captureGroup\cf0  
+\f0\i \cf2 -- make template of capture group
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 replaceTemplate\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f2\b \cf0 not
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 useSentinal\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f0\i \cf2 -- Rather than searching and looping through, which can be slow when there are a lot of matches, we can speed things up by doing replaces and a split, using a sentinal string that should never normally be part of any text
+\f1\i0 \cf0 \
+			
+\f0\i \cf2 -- wrap template in sentinals and then do replace
+\f1\i0 \cf0 \
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theReplace\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theSentinal\cf0  & \cf5 replaceTemplate\cf0  & \cf5 theSentinal\cf0 \
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 matchCount\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (\cf5 theRegex's\cf0  \cf6 replaceMatchesInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\} \cf6 withTemplate\cf0 :\cf5 theReplace\cf0 )\
+			
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 matchCount\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  \cf0 0\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 return
+\f1\b0 \cf0  \{\} 
+\f0\i \cf2 -- no matches, so return
+\f1\i0 \cf0 \
+			
+\f0\i \cf2 -- insert sentinals at start and end
+\f1\i0 \cf0 \
+			\cf5 theString's\cf0  \cf6 insertString\cf0 :\cf5 theSentinal\cf0  \cf6 atIndex\cf0 :\cf0 0\cf0 \
+			\cf5 theString's\cf0  \cf6 appendString\cf0 :\cf5 theSentinal\cf0 \
+			
+\f0\i \cf2 -- replace (sentinal & <anything up to next sentinal> & sentinal) with sentinal
+\f1\i0 \cf0 \
+			
+\f0\i \cf2 -- because we inserted a sentinal at the start, this should find-and-replace outside the matches
+\f1\i0 \cf0 \
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 tempRegex\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theSentinal\cf0  & \cf0 "(?s).*?"\cf0  & \cf5 theSentinal\cf0 \
+			\cf5 theString's\cf0  \cf6 replaceOccurrencesOfString\cf0 :\cf5 tempRegex\cf0  \cf6 withString\cf0 :\cf5 theSentinal\cf0  \cf6 options\cf0 :\cf0 1024\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\} 
+\f0\i \cf2 -- options is NSRegularExpressionSearch
+\f1\i0 \cf0 \
+			
+\f0\i \cf2 -- now split on the inserted sentinals
+\f1\i0 \cf0 \
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 tempList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 componentsSeparatedByString\cf0 :\cf5 theSentinal\cf0 )\
+			
+\f0\i \cf2 -- strip off first and last, which will always be ""
+\f1\i0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 tempList's\cf0  \cf6 subarrayWithRange\cf0 :\{\cf0 1\cf0 , (\cf5 tempList's\cf0  \cf6 |count|\cf0 ()) - \cf0 2\cf0 \}) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theMatches\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theRegex's\cf0  \cf6 matchesInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\}\
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 matchCount\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theMatches's\cf0  \cf6 |count|\cf0 ()\
+			
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 matchCount\cf0  = \cf0 0\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 return
+\f1\b0 \cf0  \{\}\
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSMutableArray's\cf0  \cf6 arrayWithCapacity\cf0 :\cf5 matchCount\cf0 \
+			
+\f2\b \cf0 repeat
+\f1\b0 \cf0  
+\f2\b \cf0 with
+\f1\b0 \cf0  \cf5 aMatch\cf0  
+\f2\b \cf0 in
+\f1\b0 \cf0  \cf5 theMatches\cf0 \
+				
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 oneString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (\cf5 theRegex's\cf0  \cf6 replacementStringForResult\cf0 :\cf5 aMatch\cf0  \cf6 inString\cf0 :\cf5 theString\cf0  \cf6 |offset|\cf0 :\cf0 0\cf0  \cf6 template\cf0 :\cf5 replaceTemplate\cf0 )\
+				
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 oneString\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+					(\cf5 theList's\cf0  \cf6 addObject\cf0 :\cf0 ""\cf0 )\
+				
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+					(\cf5 theList's\cf0  \cf6 addObject\cf0 :\cf5 oneString\cf0 )\
+				
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 repeat
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList\cf0  
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 )\
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 captureGroup\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theMatches\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theRegex's\cf0  \cf6 matchesInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\}\
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 matchCount\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theMatches's\cf0  \cf6 |count|\cf0 ()\
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 matchCount\cf0  = \cf0 0\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 return
+\f1\b0 \cf0  \{\}\
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSMutableArray's\cf0  \cf6 arrayWithCapacity\cf0 :\cf5 matchCount\cf0 \
+		
+\f2\b \cf0 repeat
+\f1\b0 \cf0  
+\f2\b \cf0 with
+\f1\b0 \cf0  \cf5 aMatch\cf0  
+\f2\b \cf0 in
+\f1\b0 \cf0  \cf5 theMatches\cf0 \
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 subList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (
+\f2\b \cf0 my
+\f1\b0 \cf0  \cf6 buildSublistFrom\cf0 :\cf5 theString\cf0  \cf6 captureGroups\cf0 :\cf5 captureGroup\cf0  \cf6 fromMatch\cf0 :\cf5 aMatch\cf0  \cf6 regularExpression\cf0 :\cf5 theRegex\cf0 )\
+			(\cf5 theList's\cf0  \cf6 addObject\cf0 :\cf5 subList\cf0 )\
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 repeat
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theList\cf0  
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 )\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf0 "Capture groups value is not an integer or list."\cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	\
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 regex search
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 regex search once
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 search pattern\cf0  \cf5 thePattern\cf0  \cf4 match case\cf0  \cf5 matchCase\cf0  : \cf3 false\cf0  \cf4 dot matches all\cf0  \cf5 dotMatchesAll\cf0  : \cf3 false\cf0  \cf4 anchors match lines\cf0  \cf5 anchorsMatchLines\cf0  : \cf3 true\cf0  \cf4 Unicode boundaries\cf0  \cf5 unicodeBoundaries\cf0  : \cf3 false\cf0  \cf4 replace template\cf0  \cf5 replaceTemplate\cf0  : (
+\f0\i \cf4 missing value
+\f1\i0 \cf0 ) \cf4 capture groups\cf0  \cf5 captureGroup\cf0  : \cf0 0\cf0  \cf4 backwards search\cf0  \cf5 fromBack\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (
+\f2\b \cf0 not
+\f1\b0 \cf0  \cf5 matchCase\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 dotMatchesAll\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 8\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 anchorsMatchLines\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 16\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 unicodeBoundaries\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 64\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \{\cf5 theRegex\cf0 , \cf5 theError\cf0 \} 
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSRegularExpression's\cf0  \cf6 regularExpressionWithPattern\cf0 :\cf5 thePattern\cf0  \cf6 options\cf0 :\cf5 theOpts\cf0  \cf6 |error|\cf0 :(
+\f0\i \cf4 reference
+\f1\i0 \cf0 )\
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 theRegex\cf0  = 
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf5 theError's\cf0  \cf6 localizedDescription\cf0 () 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 replaceTemplate\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 and
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 captureGroup\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 replaceTemplate\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf0 "$"\cf0  & \cf5 captureGroup\cf0  
+\f0\i \cf2 -- make template of capture group
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f2\b \cf0 not
+\f1\b0 \cf0  \cf5 fromBack\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theMatch\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theRegex's\cf0  \cf6 firstMatchInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\}\
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 theMatch\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 return
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 return
+\f1\b0 \cf0  
+\f2\b \cf0 my
+\f1\b0 \cf0  \cf6 resultFrom\cf0 :\cf5 theString\cf0  \cf6 captureGroups\cf0 :\cf5 captureGroup\cf0  \cf6 fromMatch\cf0 :\cf5 theMatch\cf0  \cf6 replaceTemplate\cf0 :\cf5 replaceTemplate\cf0  \cf6 regularExpression\cf0 :\cf5 theRegex\cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theMatches\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theRegex's\cf0  \cf6 matchesInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\}\
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 theMatches's\cf0  \cf6 |count|\cf0 () = \cf0 0\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 return
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theMatch\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theMatches's\cf0  \cf6 lastObject\cf0 ()\
+		
+\f2\b \cf0 return
+\f1\b0 \cf0  
+\f2\b \cf0 my
+\f1\b0 \cf0  \cf6 resultFrom\cf0 :\cf5 theString\cf0  \cf6 captureGroups\cf0 :\cf5 captureGroup\cf0  \cf6 fromMatch\cf0 :\cf5 theMatch\cf0  \cf6 replaceTemplate\cf0 :\cf5 replaceTemplate\cf0  \cf6 regularExpression\cf0 :\cf5 theRegex\cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 regex search once
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  \cf6 resultFrom\cf0 :\cf5 theString\cf0  \cf6 captureGroups\cf0 :\cf5 captureGroup\cf0  \cf6 fromMatch\cf0 :\cf5 theMatch\cf0  \cf6 replaceTemplate\cf0 :\cf5 replaceTemplate\cf0  \cf6 regularExpression\cf0 :\cf5 theRegex\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 replaceTemplate\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f2\b \cf0 not
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 oneString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (\cf5 theRegex's\cf0  \cf6 replacementStringForResult\cf0 :\cf5 theMatch\cf0  \cf6 inString\cf0 :\cf5 theString\cf0  \cf6 |offset|\cf0 :\cf0 0\cf0  \cf6 template\cf0 :\cf5 replaceTemplate\cf0 )\
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 oneString\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf0 ""\cf0 \
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf5 oneString\cf0  
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  
+\f0\i \cf4 class
+\f1\i0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 captureGroup\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 return
+\f1\b0 \cf0  
+\f2\b \cf0 my
+\f1\b0 \cf0  \cf6 buildSublistFrom\cf0 :\cf5 theString\cf0  \cf6 captureGroups\cf0 :\cf5 captureGroup\cf0  \cf6 fromMatch\cf0 :\cf5 theMatch\cf0  \cf6 regularExpression\cf0 :\cf5 theRegex\cf0 \
+	
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf0 "Capture groups value is not an integer or list."\cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  \cf6 resultFrom:captureGroups:fromMatch:replaceTemplate:regularExpression:\cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  \cf6 buildSublistFrom\cf0 :\cf5 theString\cf0  \cf6 captureGroups\cf0 :\cf5 captureGroup\cf0  \cf6 fromMatch\cf0 :\cf5 theMatch\cf0  \cf6 regularExpression\cf0 :\cf5 theRegex\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 rangeCount\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theMatch's\cf0  \cf6 numberOfRanges\cf0 ()\
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 subList\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSMutableArray's\cf0  \cf6 arrayWithCapacity\cf0 :\cf5 rangeCount\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 captureGroup\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  \{\} 
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 repeat
+\f1\b0 \cf0  
+\f2\b \cf0 with
+\f1\b0 \cf0  \cf5 i\cf0  
+\f2\b \cf0 from
+\f1\b0 \cf0  \cf0 0\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 rangeCount\cf0  - \cf0 1\cf0 \
+			
+\f2\b \cf0 set
+\f1\b0 \cf0  
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 captureGroup\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 i\cf0 \
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 repeat
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 repeat
+\f1\b0 \cf0  
+\f2\b \cf0 with
+\f1\b0 \cf0  \cf5 aGroup\cf0  
+\f2\b \cf0 in
+\f1\b0 \cf0  \cf5 captureGroup\cf0 \
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 aGroup\cf0  > \cf5 rangeCount\cf0  - \cf0 1\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf0 "Capture group out of range. Result has "\cf0  & \cf5 rangeCount\cf0  & \cf0 " capture groups, you asked for "\cf0  & \cf5 aGroup\cf0  & \cf0 "."\cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 replaceTemplate\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf0 "$"\cf0  & \cf5 aGroup\cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 oneString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (\cf5 theRegex's\cf0  \cf6 replacementStringForResult\cf0 :\cf5 theMatch\cf0  \cf6 inString\cf0 :\cf5 theString\cf0  \cf6 |offset|\cf0 :\cf0 0\cf0  \cf6 template\cf0 :\cf5 replaceTemplate\cf0 )\
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 oneString\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+			(\cf5 subList's\cf0  \cf6 addObject\cf0 :\cf0 ""\cf0 )\
+		
+\f2\b \cf0 else
+\f1\b0 \cf0 \
+			(\cf5 subList's\cf0  \cf6 addObject\cf0 :\cf5 oneString\cf0 )\
+		
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 repeat
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf5 subList\cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  \cf6 buildSublistFrom:captureGroups:fromMatch:regularExpression:\cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 regex change
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 search pattern\cf0  \cf5 thePattern\cf0  \cf4 match case\cf0  \cf5 matchCase\cf0  : \cf3 false\cf0  \cf4 dot matches all\cf0  \cf5 dotMatchesAll\cf0  : \cf3 false\cf0  \cf4 anchors match lines\cf0  \cf5 anchorsMatchLines\cf0  : \cf3 true\cf0  \cf4 Unicode boundaries\cf0  \cf5 unicodeBoundaries\cf0  : \cf3 false\cf0  \cf4 replace template\cf0  \cf5 replaceTemplate\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (
+\f2\b \cf0 not
+\f1\b0 \cf0  \cf5 matchCase\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 dotMatchesAll\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 8\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 anchorsMatchLines\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 16\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 unicodeBoundaries\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 64\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \{\cf5 theRegex\cf0 , \cf5 theError\cf0 \} 
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSRegularExpression's\cf0  \cf6 regularExpressionWithPattern\cf0 :\cf5 thePattern\cf0  \cf6 options\cf0 :\cf5 theOpts\cf0  \cf6 |error|\cf0 :(
+\f0\i \cf4 reference
+\f1\i0 \cf0 )\
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 theRegex\cf0  = 
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf5 theError's\cf0  \cf6 localizedDescription\cf0 () 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theRegex's\cf0  \cf6 stringByReplacingMatchesInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\} \cf6 withTemplate\cf0 :\cf5 replaceTemplate\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 regex change
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 regex batch
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 change pairs\cf0  \cf5 changePairs\cf0  \cf4 match case\cf0  \cf5 matchCase\cf0  : \cf3 false\cf0  \cf4 dot matches all\cf0  \cf5 dotMatchesAll\cf0  : \cf3 false\cf0  \cf4 anchors match lines\cf0  \cf5 anchorsMatchLines\cf0  : \cf3 true\cf0  \cf4 Unicode boundaries\cf0  \cf5 unicodeBoundaries\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (
+\f2\b \cf0 not
+\f1\b0 \cf0  \cf5 matchCase\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 dotMatchesAll\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 8\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 anchorsMatchLines\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 16\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 unicodeBoundaries\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 64\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSMutableString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 repeat
+\f1\b0 \cf0  
+\f2\b \cf0 with
+\f1\b0 \cf0  \cf5 aPair\cf0  
+\f2\b \cf0 in
+\f1\b0 \cf0  \cf5 changePairs\cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \{\cf5 theRegex\cf0 , \cf5 theError\cf0 \} 
+\f2\b \cf0 to
+\f1\b0 \cf0  (\cf5 NSRegularExpression's\cf0  \cf6 regularExpressionWithPattern\cf0 :(
+\f0\i \cf4 item
+\f1\i0 \cf0  \cf0 1\cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 aPair\cf0 ) \cf6 options\cf0 :\cf5 theOpts\cf0  \cf6 |error|\cf0 :(
+\f0\i \cf4 reference
+\f1\i0 \cf0 ))\
+		
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 theRegex\cf0  = 
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf5 theError's\cf0  \cf6 localizedDescription\cf0 () 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+		(\cf5 theRegex's\cf0  \cf6 replaceMatchesInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\} \cf6 withTemplate\cf0 :(
+\f0\i \cf4 item
+\f1\i0 \cf0  \cf0 2\cf0  
+\f2\b \cf0 of
+\f1\b0 \cf0  \cf5 aPair\cf0 ))\
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 repeat
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 regex batch
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 regex split
+\f1\b0 \cf0  \cf5 origString\cf0  \cf4 search pattern\cf0  \cf5 thePattern\cf0  \cf4 match case\cf0  \cf5 matchCase\cf0  : \cf3 false\cf0  \cf4 dot matches all\cf0  \cf5 dotMatchesAll\cf0  : \cf3 false\cf0  \cf4 anchors match lines\cf0  \cf5 anchorsMatchLines\cf0  : \cf3 true\cf0  \cf4 Unicode boundaries\cf0  \cf5 unicodeBoundaries\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (
+\f2\b \cf0 not
+\f1\b0 \cf0  \cf5 matchCase\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 dotMatchesAll\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 8\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 anchorsMatchLines\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 16\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 unicodeBoundaries\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theOpts\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theOpts\cf0  + \cf0 64\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \{\cf5 theRegex\cf0 , \cf5 theError\cf0 \} 
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSRegularExpression's\cf0  \cf6 regularExpressionWithPattern\cf0 :\cf5 thePattern\cf0  \cf6 options\cf0 :\cf5 theOpts\cf0  \cf6 |error|\cf0 :(
+\f0\i \cf4 reference
+\f1\i0 \cf0 )\
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 theRegex\cf0  = 
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 error
+\f1\b0 \cf0  \cf5 theError's\cf0  \cf6 localizedDescription\cf0 () 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 origString\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 tempString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 theRegex's\cf0  \cf6 stringByReplacingMatchesInString\cf0 :\cf5 theString\cf0  \cf6 options\cf0 :\cf0 0\cf0  \cf6 range\cf0 :\{\cf0 0\cf0 , \cf5 theString's\cf0  \cf6 |length|\cf0 ()\} \cf6 withTemplate\cf0 :\cf5 theSentinal\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theMatches\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 tempString's\cf0  \cf6 componentsSeparatedByString\cf0 :\cf5 theSentinal\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theMatches\cf0  
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 list
+\f1\i0 \cf0 )\
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 regex split
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 escape for regex
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 template style\cf0  \cf5 isTemplate\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 isTemplate\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0  
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 NSRegularExpression's\cf0  \cf6 escapedTemplateForString\cf0 :\cf5 theString\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 NSRegularExpression's\cf0  \cf6 escapedPatternForString\cf0 :\cf5 theString\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 escape for regex
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 common prefix of
+\f1\b0 \cf0  \cf5 origString\cf0  \cf4 with string\cf0  \cf5 otherString\cf0  \cf4 match case\cf0  \cf5 matchCase\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 origString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf5 theString's\cf0  \cf6 commonPrefixWithString\cf0 :\cf5 otherString\cf0  \cf6 options\cf0 :((
+\f2\b \cf0 not
+\f1\b0 \cf0  \cf5 matchCase\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 integer
+\f1\i0 \cf0 )\
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 common prefix of
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 percent encode
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 encoded set\cf0  \cf5 allowedSet\cf0  : \cf3 path characters\cf0  \cf4 encoded characters\cf0  \cf5 allowedChars\cf0  : 
+\f0\i \cf4 missing value
+\f1\i0 \cf0 \
+	
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 allowedChars\cf0  
+\f2\b \cf0 is
+\f1\b0 \cf0  
+\f2\b \cf0 not
+\f1\b0 \cf0  
+\f0\i \cf4 missing value
+\f1\i0 \cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  (\cf5 NSCharacterSet's\cf0  \cf6 characterSetWithCharactersInString\cf0 :\cf5 allowedChars\cf0 )'s \cf6 invertedSet\cf0 ()\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 allowedSet\cf0  = \cf3 path characters\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSCharacterSet's\cf0  \cf6 URLPathAllowedCharacterSet\cf0 ()\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 allowedSet\cf0  = \cf3 host characters\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSCharacterSet's\cf0  \cf6 URLHostAllowedCharacterSet\cf0 ()\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 allowedSet\cf0  = \cf3 query characters\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSCharacterSet's\cf0  \cf6 URLQueryAllowedCharacterSet\cf0 ()\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 allowedSet\cf0  = \cf3 fragment characters\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSCharacterSet's\cf0  \cf6 URLFragmentAllowedCharacterSet\cf0 ()\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 allowedSet\cf0  = \cf3 password characters\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSCharacterSet's\cf0  \cf6 URLPasswordAllowedCharacterSet\cf0 ()\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0  \cf5 allowedSet\cf0  = \cf3 user characters\cf0  
+\f2\b \cf0 then
+\f1\b0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSCharacterSet's\cf0  \cf6 URLUserAllowedCharacterSet\cf0 ()\
+	
+\f2\b \cf0 else
+\f1\b0 \cf0  
+\f0\i \cf2 -- fall back
+\f1\i0 \cf0 \
+		
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 allowedSet\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSCharacterSet's\cf0  \cf6 URLPathAllowedCharacterSet\cf0 ()\
+	
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf0 if
+\f1\b0 \cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 stringByAddingPercentEncodingWithAllowedCharacters\cf0 :\cf5 allowedSet\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 percent encode
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 percent decode
+\f1\b0 \cf0  \cf5 theString\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  \cf5 theString's\cf0  \cf6 stringByRemovingPercentEncoding\cf0 () 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 percent decode
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 ICU transform
+\f1\b0 \cf0  \cf5 theString\cf0  \cf4 transform name\cf0  \cf5 nameOfTransform\cf0  \cf4 reverse transform\cf0  \cf5 reverseTransform\cf0  : \cf3 false\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 stringByApplyingTransform\cf0 :\cf5 nameOfTransform\cf0  \cf6 |reverse|\cf0 :\cf5 reverseTransform\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 ICU transform
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 decimal encode
+\f1\b0 \cf0  \cf5 theString\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 stringByApplyingTransform\cf0 :\cf0 "[^\\\\x20-\\\\x7e]-Hex/XML10"\cf0  \cf6 |reverse|\cf0 :\cf3 false\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 decimal encode
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 hex decode
+\f1\b0 \cf0  \cf5 theString\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 stringByApplyingTransform\cf0 :\cf0 "Hex-Any"\cf0  \cf6 |reverse|\cf0 :\cf3 false\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 hex decode
+\f1\b0 \cf0 \
+\
+
+\f2\b \cf0 on
+\f1\b0 \cf0  
+\f2\b \cf4 hex encode
+\f1\b0 \cf0  \cf5 theString\cf0 \
+	
+\f2\b \cf0 set
+\f1\b0 \cf0  \cf5 theString\cf0  
+\f2\b \cf0 to
+\f1\b0 \cf0  \cf5 NSString's\cf0  \cf6 stringWithString\cf0 :\cf5 theString\cf0 \
+	
+\f2\b \cf0 return
+\f1\b0 \cf0  (\cf5 theString's\cf0  \cf6 stringByApplyingTransform\cf0 :\cf0 "[^\\\\x20-\\\\x7e]-Hex/XML"\cf0  \cf6 |reverse|\cf0 :\cf3 false\cf0 ) 
+\f2\b \cf0 as
+\f1\b0 \cf0  
+\f0\i \cf4 text
+\f1\i0 \cf0 \
+
+\f2\b \cf0 end
+\f1\b0 \cf0  
+\f2\b \cf4 hex encode
+\f1\b0 \cf0 \
+}
