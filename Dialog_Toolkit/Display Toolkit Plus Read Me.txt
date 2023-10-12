@@ -1,0 +1,57 @@
+Version 1.1.2, July 2019
+
+Version 1.1.2 works around an issue where AppleScript compiler would confuse specifier and reference. 
+
+Version 1.1.1 fixes an issue where enhanced alerts returned the wrong name for the button pressed. 
+
+Version 1.1.0 is largely a refactoring to deal with threading issues that have become more critical in macOS 10.14. It also fixes a terminology problem that *may* require you to recompile some scripts (it mainly affects the 'button list' parameter of the 'display enhanced window' command). You might also find the 'cancel button' and 'default button' parameters of the 'create buttons' command are swapped.
+
+This version also introduces a new 'create secure field' command, which displays entered characters as bullets.
+
+(Version 1.0.1: Fixed bug with setting a default selection in a matrix.)
+
+Dialog Toolkit Plus is an AppleScript scripting library for creating enhanced dialogs. It is the successor to Dialog Toolkit, and works on macOS 10.10 and later. To see its dictionary, drag it over your script editor's icon while holding down the option key, or using the Open Dictionary... command. If you are using Script Debugger, just double-click on it and choose Dictionary.
+
+To use it, you should first place it in ~/Library/Script Libraries, a folder you will need to create if you have no script libraries already. To use its commands, you can address it by including the following statement near the beginning of your script:
+
+use script "Dialog Toolkit Plus" version "1.1.0"
+
+You can also distribute it within script applets and script bundles by creating a folder called Script Libraries in the bundle's /Contents/Resources folder.
+
+The are two ways to build a dialog. The first is that used in its predecessor, Dialog Toolkit, which involves modifying an alert dialog. The second is to populate an essentially blank window.
+
+The principle is similar for both. To build the dialog, you create each control, designating its geometry, then pass all of them to the relevant command where they are added to an area of the dialog called the accessory view.
+
+In the case of the 'display enhanced alert' command, you pass the list of controls for the accessory view, a list of button labels, the bold alert text, and a secondary informational message. The dialog then appears with an icon on the left (which depends on the host and alert type), and the alert text, informational message, accessory view and buttons to the right.
+
+In the case of the 'display enhanced window' command, you pass the list of controls for the accessory view, plus a list of buttons you have already created using the 'create buttons' command. There is no icon or standing alert and informational text -- the accessory view fills the area above the buttons.
+
+In both cases you start creating controls from the bottom and working up. This makes it simpler to calculate the geometry, because coordinates are calculated from bottom to top. 
+
+If you are using the 'display enhanced window' command, you generally start with the 'create buttons' command, because this returns the minimum width required to fit them in. The 'display enhanced alert' command handles that aspect automatically, so you only need to pass a list of button names.
+
+So for each control you provide a "bottom" coordinate value -- starting with 0 for the one that will appear at the bottom of the accessory view -- and the command that makes the control will include a "top" value in its result. You then use this value, plus whatever space you wish to put between the controls, as the "bottom" parameter for the control that appears above it.
+
+Once you have created the controls, you call the relevant display command, and the result includes the new values of the controls.
+
+The 'display enhanced window' command gives you more control over buttons and control placement than the 'display enhanced alert' command, and uses space more efficiently. You can also control its initial position on screen and the initial active field. And if you designate a cancel button, clicking that button will generate a user canceled error (number -128).
+
+The example scripts should make the process clearer.
+
+The library has two utility commands:
+
+max width for labels
+
+One of the features of the controls is that you can align them vertically, with labels ranged right next to them. To make this work, you need to have the controls far enough across to fit the longest label. This command can be used calculate the width of the longest label, so that you can position controls properly.
+
+max depth for label
+
+This allows you to find out how much depth is required for a block of text of a given format and width.
+
+The  commands are all documented in the scripting dictionary. All of the control creation commands return several values, including the Y-coordinate of the top of the control. You can use this in turn to set the position of the next control, and so on.
+
+The result values differ, depending on the control. Checkboxes return true or false, depending on their state; fields return the entered text; popups return the title of the selected item; matrixes return the title of the selected radio button; and path controls return the represented POSIX path.
+
+Do not run scripts that use this library in versions of Script Debugger earlier than 6.0. It may also not work if called from JXA.
+
+Dialog Toolkit is copyright ©2014-19, Shane Stanley <sstanley@myriad-com.com.au>. It may be freely distributed and copied. If you modify it, please rename the modified version to avoid clashes. You use it entirely at your own risk. Feedback is welcome.
