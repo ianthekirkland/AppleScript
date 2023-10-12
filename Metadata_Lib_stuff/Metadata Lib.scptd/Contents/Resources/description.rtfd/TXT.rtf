@@ -1,0 +1,352 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf500
+{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 Helvetica-Oblique;
+\f3\fnil\fcharset0 Verdana-Bold;\f4\fnil\fcharset0 Verdana;\f5\fnil\fcharset0 Verdana-Italic;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue255;\red64\green128\blue0;
+\red0\green22\blue176;\red68\green21\blue176;\red108\green5\blue211;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgenericrgb\c0\c0\c100000;\csgenericrgb\c25000\c50000\c0;
+\csgenericrgb\c0\c8700\c69000;\csgenericrgb\c26600\c8300\c69100;\csgenericrgb\c42300\c1800\c82800;}
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs48 \cf0 Metadata Lib v2.0.2\
+
+\f1\b0\fs28 \
+
+\f0\b Metadata Lib
+\f1\b0  is a library for conducting Spotlight queries, as an alternative to the command-line tools 
+\f0\b mdls 
+\f1\b0 and
+\f0\b  mdfind
+\f1\b0  via do shell script. It requires OS X 10.10 or later, and you install it by putting it in 
+\f2\i ~/Library/Script Libraries
+\f1\i0  (you may have to create this folder). Like any other script library, it can also be embedded in script applets and bundles.\
+\
+
+\f0\b Metadata Lib
+\f1\b0  is backwards compatible with version 1.0. In version 1.0, handlers were called directly, but version 2.0 has a terminology dictionary, so it can also be called using normal AppleScript-style commands. Version 2.0 also introduces the ability to limit results to a particular folder, excluding results for any subfolders.\
+\
+Once you have installed the file in 
+\f2\i ~/Library/Script Libraries
+\f1\i0 , you can read its dictionary by choosing 
+\f0\b File -> Open Dictionary\'85
+\f1\b0  in Script Editor, or simply dragging it over Script Debugger\'92s icon.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf0 Using the library\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0\fs28 \cf0 \
+You include the library in a script by adding a use statement:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 use
+\f4\b0  
+\f5\i \cf3 script
+\f4\i0 \cf2  "Metadata Lib" \cf3 version\cf2  "2.0.0"\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+If your script uses any scripting addition commands, you will also need to include a 
+\f0\b use scripting additions
+\f1\b0  statement (or 
+\f0\b using terms from scripting additions
+\f1\b0  blocks).\
+\
+Reading metadata is simple. For example:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFile\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose file
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 fetch metadata
+\f4\b0 \cf2  \cf5 for item\cf2  \cf4 theFile
+\f1 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+\cf0 \
+You can pass a file, alias, NSURL or POSIX path to the command. The result depends on the value of the 
+\f0\b return style
+\f1\b0  parameter \'97 the default is a record containing the metadata available for the specified item. if you want just the metadata keys available for a file, you could use:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFile\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose file
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 fetch metadata
+\f4\b0 \cf2  \cf5 for item\cf2  \cf4 theFile\cf2  \cf5 return style\cf2  \cf6 metadata keys\cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+To conduct a search, you use the 
+\f0\b perform search
+\f1\b0  command. You can search in one or more folders (using the 
+\f0\b in folders
+\f1\b0  parameter), in a defined search scope (using the 
+\f0\b in scopes
+\f1\b0  parameter), or in a single folder (using the 
+\f0\b just in
+\f1\b0  parameter). In the latter case, the results from subfolders are excluded. The only other required parameter is the 
+\f0\b predicate string
+\f1\b0 . For example:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose folder
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 perform search
+\f4\b0 \cf2  \cf5 in folders\cf2  \{\cf4 theFolder\cf2 \} \cf5 predicate string\cf2  "kMDItemFSName ENDSWITH[c] '.txt'"\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+The result is a list of POSIX paths. If you want to exclude results from subfolders, you would use:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose folder
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 perform search
+\f4\b0 \cf2  \cf5 just in\cf2  \cf4 theFolder\cf2  \cf5 predicate string\cf2  "kMDItemFSName ENDSWITH[c] '.txt'"\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+In this latter case, because all the files are in the same folder, you can have just the file names returned, if you prefer:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose folder
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 perform search
+\f4\b0 \cf2  \cf5 just in\cf2  \cf4 theFolder\cf2  \cf5 predicate string\cf2  "kMDItemFSName ENDSWITH[c] '.txt'" 
+\f3\b with
+\f4\b0  \cf5 names only\cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+Note that the definition of name here is the last part of the path, so if you have filenames containing the / character, they will be returned using the : character instead.\
+\
+You can also use placeholders in the predicate string. For example:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose folder
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 perform search
+\f4\b0 \cf2  \cf5 in folders\cf2  \{\cf4 theFolder\cf2 \} \cf5 predicate string\cf2  "kMDItemFSName ENDSWITH[c] %@" \cf5 search arguments\cf2  \{".txt"\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+Or:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose folder
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 perform search
+\f4\b0 \cf2  \cf5 in folders\cf2  \{\cf4 theFolder\cf2 \} \cf5 predicate string\cf2  "%K ENDSWITH[c] %@" \cf5 search arguments\cf2  \{"kMDItemFSName", ".txt"\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+The placeholders are %K for a key and %@ for a value, and do not need to be quoted. Placeholders are particularly useful when entering non-string values, such as dates (though these must be Cocoa dates under macOS 10.10).\
+\
+You can also conduct a search and specify the attributes you wish to be returned for the found files. For example, this will return a list of records containing the path and file size of the found items:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose folder
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 perform search
+\f4\b0 \cf2  \cf5 in folders\cf2  \{\cf4 theFolder\cf2 \} \cf5 predicate string\cf2  "kMDItemFSName ENDSWITH[c] %@" \cf5 search arguments\cf2  \{".txt"\} \cf5 attributes to include\cf2  \{"kMDItemFSSize"\}\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+If the attribute is not found for a file, a value of 
+\f0\b missing value
+\f1\b0  will be returned for that attribute. If you pass an empty list as the 
+\f0\b attributes to include
+\f1\b0  parameter, records containing all found attributes will be returned.\
+\
+Under macOS 10.10, any values that are dates, such as 
+\f2\i kMDItemFSCreationDate
+\f1\i0 , will not be converted from Cocoa dates automatically, as they will under 10.11 and later. If you wish them to be converted, you should specify so using the 
+\f0\b converting dates
+\f1\b0  parameter:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 choose folder
+\f4\b0 \cf2 \
+
+\f3\b set
+\f4\b0  \cf4 theMetadata\cf2  
+\f3\b to
+\f4\b0  
+\f3\b \cf5 perform search
+\f4\b0 \cf2  \cf5 in folders\cf2  \{\cf4 theFolder\cf2 \} \cf5 predicate string\cf2  "kMDItemFSName ENDSWITH[c] %@" \cf5 search arguments\cf2  \{".txt"\} \cf5 attributes to include\cf2  \{"kMDItemContentModificationDate"\} 
+\f3\b with
+\f4\b0  \cf5 converting dates\cf2 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1 \cf0 \
+Just keep in mind that this can take quite a lot longer if there are a lot of files, so don\'92t use the 
+\f0\b converting dates
+\f1\b0  parameter unless you need date values and are running macOS 10.10.\
+\
+Predicate strings are slightly different to the search strings used with 
+\f0\b mdfind
+\f1\b0 . A predicate string will always have an attribute on the left and a value (or values) on the right. The operators you can use include ==, =, !=, <>, >, <, >=, <=, LIKE, CONTAINS, BETWEEN, IN, BEGINSWITH and ENDSWITH, and case- and diacritical-insensitivity involve putting [c], [cd] or [d] after the operator. You can use AND and OR as joiners, or their equivalents && and ||. Operators are typically written in uppercase, but they do not have to be. You can read more here: <{\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Predicates/Articles/pSpotlightComparison.html"}}{\fldrslt https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Predicates/Articles/pSpotlightComparison.html}}>. You can also see a list of some of the common metadata keys here: <{\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/content/documentation/CoreServices/Reference/MetadataAttributesRef/Reference/CommonAttrs.html"}}{\fldrslt https://developer.apple.com/library/content/documentation/CoreServices/Reference/MetadataAttributesRef/Reference/CommonAttrs.html}}>.\
+\
+One way to build predicate strings is to do a find in Finder and save the search. You can then pass the POSIX path of the 
+\f2\i .savedSearch
+\f1\i0  file to the 
+\f0\b search strings from saved search
+\f1\b0  command, and it will return both a mdfind-style search string and its equivalent metadata search string. Depending on the search you will probably need to modify some values, but this provides a good starting point:\
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f3\b \cf2 set
+\f4\b0  \cf4 theFolder\cf2  
+\f3\b to
+\f4\b0  \cf7 POSIX path\cf2  
+\f3\b of
+\f4\b0  (
+\f3\b \cf5 choose file
+\f4\b0 \cf2  \cf5 of type\cf2  \{"savedSearch"\})\
+
+\f3\b set
+\f4\b0  \{\cf4 finderSearch\cf2 , \cf4 mdLibSearch\cf2 \} 
+\f3\b to
+\f4\b0  
+\f3\b \cf5 search strings from saved search
+\f4\b0 \cf2  \cf4 theFolder
+\f1 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf0 Caveats
+\f1\b0\fs28 \
+\
+See the comments above about dates in macOS 10.10.\
+\
+You can embed this library in script bundles, but when developing and testing scripts it is better to use the 
+\f2\i ~/Libraries/Script Libraries
+\f1\i0  folder. You can always add it to deployment versions later.\
+\
+
+\f0\b\fs36 Changes since version 2.0.0
+\f1\b0\fs28 \
+\
+Fixed bugs where the 
+\f0\b fetch metadata
+\f1\b0  command would throw error for some return styles. Also worked around issue where AppleScript compiler would confuse 
+\f2\i specifier
+\f1\i0  and 
+\f2\i reference
+\f1\i0 .\
+\
+
+\f0\b\fs36 Feedback and updates
+\f1\b0\fs28 \
+\
+I welcome feedback: Shane Stanley, <sstanley@myriad-com.com.au>. \
+The latest version can be downloaded from: <http://www.macosxautomation.com/applescript/apps/Script_Libs.html#Metadata_Lib>.\
+\
+
+\f0\b\fs36 Acknowledgements\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0\fs28 \cf0 \
+Special thanks to Nigel Garvey and Yvan Koenig. \
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf0 Licence\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl288\slmult1\pardirnatural\partightenfactor0
+
+\f1\b0\fs28 \cf0 \
+Metadata Lib is Copyright \'a9 2017-18 Shane Stanley <sstanley@myriad-com.com.au>\
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software to use, copy, and distribute copies, including within commercial software, subject to the following conditions:\
+\
+Modified copies should be distributed under a different name to avoid clashes.\
+\
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\
+\
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\
+}

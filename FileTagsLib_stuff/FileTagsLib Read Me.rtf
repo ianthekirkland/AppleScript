@@ -1,0 +1,77 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red64\green128\blue0;\red0\green0\blue255;\red230\green0\blue0;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww14280\viewh14500\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0\b\fs36 \cf0 FileTagsLib v1.0.0\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl264\slmult1\pardirnatural\partightenfactor0
+
+\b0\fs28 \cf0 \
+FileTagsLib is an AppleScript 
+\b script library
+\b0  for use under OS X 10.9 and later. It provides a way of retrieving and setting file tags, something not available via either Finder or System Event scripting.\
+\
+FileTagsLib should be installed with any other script libraries in a folder called 
+\i Script Libraries
+\i0  inside your 
+\i ~/Library
+\i0  folder. You can also embed it directly in script applications and bundles; see below.\
+\
+To use it, you insert the line 
+\i use FileTagsLib : script "FileTagsLib"
+\i0  near the start of your script. Your script is likely to also require a 
+\i use scripting additions
+\i0  statement.\
+\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f1\b \cf0 use
+\b0  \cf2 FileTagsLib\cf0  : 
+\i \cf3 script
+\i0 \cf0  "FileTagsLib"\
+
+\b use
+\b0  
+\i \cf3 scripting additions
+\f0\i0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 \
+To read the tags of a file, you pass a file, alias or POSIX path like this:\
+\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f1\b \cf0 set
+\b0  \cf2 listOfTags\cf0  
+\b to
+\b0  \cf2 FileTagsLib's\cf0  \cf4 returnTagsFor\cf0 :\cf2 fileOrPosixPath\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+If there are no tags, an empty list will be returned. To replace any existing tags, use:\
+\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f1\b \cf0 tell
+\b0  \cf2 FileTagsLib\cf0  
+\b to
+\b0  \cf4 setTags\cf0 :\cf2 listOfTags\cf0  \cf4 forItem\cf0 :\cf2 fileOrPosixPath\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\sl264\slmult1\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+To add tags to any existing tags, use:\
+\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f1\b \cf0 tell
+\b0  \cf2 FileTagsLib\cf0  
+\b to
+\b0  \cf4 addTags\cf0 :\cf2 listOfTags\cf0  \cf4 forItem\cf0 :\cf2 fileOrPosixPath\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f0 \cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\sl264\slmult1\pardirnatural\partightenfactor0
+\cf0 You can use, edit and distribute this library or its code free of charge. There are no guarantees or warranties whatsoever. Use at your own risk. If you distribute modified versions, please give the modified version a different name.\
+\
+-- Shane Stanley <sstanley@myriad-com.com.au>}

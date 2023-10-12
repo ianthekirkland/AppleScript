@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="Dictionary">
+	<suite name="Search Suite" code="!©Ss" description="Contains commands related to Spotlight-style searching.">
+        <class name="reference" code="obj " hidden="yes">
+            <synonym name="specifier"/>
+        </class>
+		<command name="perform search" code="!©Ss!©Ps" description="Performs a Spotlight search. You must provide the 'predicate string' parameter, as well as one (and only one) of the 'in folders', 'just in' or 'in scopes' parameters. All other parameters are optional.">
+	<documentation>
+        <html><![CDATA[
+	<p>This library's commands use <i>predicate strings</i> for searching. Predicate strings are slightly different to the search strings used with <b>mdfind</b>. A predicate string will always have an attribute on the left and a value (or values) on the right. The operators you can use include <span class="code">==, !=, &lt;&gt;, &gt;, &lt;, &gt;=, &lt;=, LIKE, CONTAINS, BETWEEN, IN, BEGINSWITH</span> and <span class="code">ENDSWITH</span>, and case- and diacritical-insensitivity involve using <span class="code">[c]</span>, <span class="code">[cd]</span> or <span class="code">[d]</span> after the operator. You can use <span class="code">AND</span> and <span class="code">OR</span> as joiners, as well as their equivalents <span class="code">&&</span> and <span class="code">||</span>. Operators are typically written in uppercase, but they do not have to be.</p>
+	<p>For example: <span class="code">&quot;kMDItemFSName ENDSWITH[c] '.txt'&quot;</span></p>
+	<p>You can read more here: <a href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/Predicates/Articles/pSpotlightComparison.html">developer.apple.com/library/content/documentation/Cocoa/Conceptual/Predicates/Articles/pSpotlightComparison.html</a>. You can also see a list of some of the common metadata keys here: <a href="https://developer.apple.com/library/content/documentation/CoreServices/Reference/MetadataAttributesRef/Reference/CommonAttrs.html">developer.apple.com/library/content/documentation/CoreServices/Reference/MetadataAttributesRef/Reference/CommonAttrs.html</a></p>
+			]]></html>
+	</documentation>
+			<parameter name="in folders" description="A list of files, aliases, POSIX paths or NSURLs of folders to search in. Spotlight searches are recursive, searching the folder and its subfolders. If you provide this parameter, any 'just in' and 'in scopes' parameters will be ignored." code="!©Sf" optional="yes">
+				<type type="any" list="yes">
+				</type>
+			</parameter>
+			<parameter name="just in" description="A single file, alias, POSIX path or NSURL of a folder to search in. Although Spotlight searches are recursive, if you use this parameter results will be returned only for items directly in the specified folder. If you provide this parameter, any 'in scopes' parameters will be ignored. It will be ignored if you also provide an 'in folders' parameter." code="!©Si" optional="yes">
+				<type type="any">
+				</type>
+			</parameter>
+			<parameter name="in scopes" description="A list of Spotlight scopes to search. Use the 'search scope names' command to list the options. This parameter will be ignored if you also provide an 'in folders' or 'just in' parameter." code="!©Ss" optional="yes">
+				<type type="any" list="yes">
+				</type>
+			</parameter>
+			<parameter name="predicate string" description="The Spotlight predicate search string. For example, &quot;kMDItemFSName ENDSWITH[c] '.txt'&quot;." code="!©St" optional="no">
+				<type type="text">
+				</type>
+			</parameter>
+			<parameter name="search arguments" description="A list of arguments that placeholders in the predicate string represent. The placeholder for metadata keys is @K, and for values it is %@. So a predicate string of &quot;kMDItemFSName ENDSWITH[c] %@&quot; might have 'search arguments' of {&quot;.txt&quot;}." code="!©Sa" optional="yes">
+				<type type="any" list="yes">
+				</type>
+			</parameter>
+			<parameter name="attributes to include" description="A list of metadata keys for attributes you want returned for each item found. If this parameter is provided, the result will be a list of records, where the keys will be the metadata keys provided, plus the key for the path of the file (kMDItemPath)." code="!©Sl" optional="yes">
+				<type type="text" list="yes">
+				</type>
+			</parameter>
+			<parameter name="converting dates" description="If you wish to use this command under macOS 10.10, and the 'attributes to include' parameter includes one or more keys that return dates, you should set this parameter to true so that dates are returned correctly. Becuase this takes extra processing time, leave it out (or set it to false) in all other circumstances." code="!©Sd" optional="yes">
+				<type type="boolean">
+				</type>
+			</parameter>
+			<parameter name="names only" description="This parameter only matters if you have confined the search to a single folder by providing the 'just in' parameter, and you have not specified the 'attributes to include' parameter. In such cases the result is normally a list of POSIX paths, but if you set this parameter to true, just the item names will be returned. The definition of name here is the last part of the path, so if you have filenames containing the / character, they will be returned using the : character instead." code="!©Sn" optional="yes">
+				<type type="boolean">
+				</type>
+			</parameter>
+			<result description="If you have requested attributes in the 'attributes to include' parameter, the result be a list of records. Otherwise it will be a list of either POSIX paths or filenames.">
+				<type type="any" list="yes">
+				</type>
+			</result>
+		</command>
+		<command name="metadata scope strings" code="!©Ss!©Pm" description="Returns a list of the available options, in case you can't remember them.">
+	<documentation>
+        <html><![CDATA[
+	<p>See <a href="https://developer.apple.com/documentation/coreservices/mdquery/query_search_scope_keys?language=objc">developer.apple.com/documentation/coreservices/mdquery/query_search_scope_keys?language=objc</a> for details.</p>
+			]]></html>
+	</documentation>
+			<result description="A list of the system defined metadata scope strings.">
+				<type type="text" list="yes">
+				</type>
+			</result>
+		</command>
+		<command name="fetch metadata" code="!©Ss!©Pf" description="Fetches the Spotlight metadata.">
+			<parameter name="for item" description="A file, alias, NSURL or POSIX path of the target item." code="!©Se" optional="no">
+				<type type="any">
+				</type>
+			</parameter>
+			<parameter name="return style" description="What to return. The default is a record containing the metadata available for the specified item." code="!©Sn" optional="yes">
+				<type type="return styles">
+				</type>
+			</parameter>
+			<result description="Depends on the value of the 'return style' parameter. The default is a record containing the metadata available for the specified item.">
+				<type type="any">
+				</type>
+			</result>
+		</command>
+		<command name="search strings from saved search" code="!©Ss!©Pe" description="One way to build predicate strings is to do a find in the Finder and save the search. You can then pass the POSIX path of the resulting .savedSearch file to this command, and it will return the predicate string.">
+			<direct-parameter description="The POSIX path of a .savedSearch file.">
+				<type type="text">
+				</type>
+			</direct-parameter>
+			<result description="A list containing the saved search's Finder-style search string, and an equivalent metadata predicate string. Depending on the search you will probably need to modify some values, but it provides a good starting point.">
+				<type type="text" list="yes">
+				</type>
+			</result>
+		</command>
+		<enumeration name="return styles" code="!©Sr" description="What to return from the 'fetch metadata' command.">
+			<enumerator name="metadata record" code="!©Sz" description="The metadata as a record.">
+			</enumerator>
+			<enumerator name="metadata keys" code="!©Sy" description="A list of the metadata key strings.">
+			</enumerator>
+			<enumerator name="metadata keys and values" code="!©Sx" description="Parallel lists of the metadata key strings and values.">
+			</enumerator>
+			<enumerator name="metadata all" code="!©Sw" description="Returns the parallel lists of the metadata key strings and values, plus the metada record.">
+			</enumerator>
+		</enumeration>
+	</suite>
+</dictionary>
