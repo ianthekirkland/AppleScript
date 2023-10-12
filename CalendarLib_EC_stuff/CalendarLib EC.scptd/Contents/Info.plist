@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIconFile</key>
+	<string>applet</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.mycompany.CalendarLib-EC-Master</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.1.4</string>
+	<key>CFBundleVersion</key>
+	<string>4</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>2015-19</string>
+	<key>OSAAppleScriptObjCEnabled</key>
+	<true/>
+	<key>OSAScriptingDefinition</key>
+	<string>ScriptingDictionary</string>
+	<key>TemplateForCFBundleIdentifier</key>
+	<string>au.com.myriad-com.CalendarLib-EC-Master</string>
+</dict>
+</plist>

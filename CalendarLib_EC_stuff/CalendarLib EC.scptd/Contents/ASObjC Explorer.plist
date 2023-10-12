@@ -1,0 +1,542 @@
+bplist00ß.	
+ !"#$%&'()*+,-./01034AB100AFGHIJ00MNOPQRAAUVWXA01[\]A0`a10AAA_NSHumanReadableCopyright_sMainSplitFirstCollaped_sRightSplitSegChoice]alwaysDecimal\CFBundleName_callingScriptsInfo\logLinesWrap_sWindowContentWidth_sSidebarTabIndex_sRightSplitFirstCollapsed_sDictTabSplitFirstCollapedYlogEvents_sMainSplitPosition[logTextSize_sCallingSplitPosition_sDictTabSplitPosition_CFBundleShortVersionString_runScriptsOnMainThread_includeOsaxFlag_callingSourceRTF_sLibSplitPositionTop_sWindowContentHeight_TemplateForCFBundleIdentifier_CFBundleVersion_TemplateForCFBundleIdentifer_resultLinesWrap_logLinesWithNoResult_OSAScriptingDefinition_sDictCheckSplitPosition_sRightSplitPosition_CFBundleIdentifier_includeFrameworksInExport_sDictTabSplitSecondCollapsed_sDictTabSplitSegChoice_currentCallingScriptIndex_sLibSplitSegChoice_callingSelectedRange^logPrettyPrint_sRightSplitSecondCollapsed_libSelectedRange_sLibSplitPositionLeft^sUtilsTabIndex_sMainSplitSecondCollapsed\libLinesWrap_OSAAppleScriptObjCEnabled_callingLinesWrapT2016[CalendarLib¢5;¥6789:O*{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red64\green128\blue0;\red108\green5\blue211;
+\red0\green22\blue176;\red76\green78\blue78;}
+\deftab560
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 tell
+\b0  
+\i \cf2 script
+\i0 \cf0  "^"\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf0 	
+\b set
+\b0  \cf3 theStore\cf0  
+\b to
+\b0  
+\b \cf2 fetch store
+\b0 \cf0 \
+	
+\b set
+\b0  \cf3 theCal\cf0  
+\b to
+\b0  
+\b \cf2 fetch calendar
+\b0 \cf0  "Home" \cf2 cal type\cf0  
+\i \cf4 cal local
+\i0 \cf0  \cf2 event store\cf0  \cf3 theStore\cf0 \
+	
+\b set
+\b0  \cf3 theEvents\cf0  
+\b to
+\b0  
+\b \cf2 fetch events
+\b0 \cf0  \cf2 starting date\cf0  ((
+\b \cf5 current date
+\b0 \cf0 ) - 30 * \cf4 days\cf0 ) \cf2 ending date\cf0  ((
+\b \cf5 current date
+\b0 \cf0 ) + 60 * \cf4 days\cf0 ) \cf2 searching cals\cf0  \{\cf3 theCal\cf0 \} \cf2 event store\cf0  \cf3 theStore\cf0 \
+	
+\b repeat
+\b0  
+\b with
+\b0  \cf3 anEvent\cf0  
+\b in
+\b0  \cf3 theEvents\cf0 \
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf0 		
+\b \cf2 log
+\b0 \cf0  (
+\b \cf2 event info for
+\b0 \cf0  \cf2 event\cf0  \cf3 anEvent\cf0 )\
+		
+\b \cf2 log
+\b0 \cf0  (
+\b \cf2 event attendees for
+\b0 \cf0  \cf2 event\cf0  \cf3 anEvent\cf0 )\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf0 	
+\b end
+\b0  
+\b repeat
+\b0 \
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\b \cf0 end
+\b0  
+\b tell
+\b0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+\
+\
+\
+\
+\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf6 (*\
+on addRecurrenceToEvent:theEvent frequency:freq interval:interv endsAt:theEnd -- frequency: 0 = daily, 1 = weekly, 2 = monthly, 3 = yearly;\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf6 	-- if theEnd is missing value, it just keeps happening; it can also be an integer for number of times, or a date for when to end\
+	if theEnd is not missing value then\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf6 		if class of theEnd is integer then\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf6 			set theEnd to current application's EKRecurrenceEnd's recurrenceEndWithOccurrenceCount:theEnd\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf6 		else\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf6 			set theEnd to current application's EKRecurrenceEnd's recurrenceEndWithEndDate:(Cocoaify theEnd)\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf6 		end if\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf6 	end if\
+	set theRule to current application's EKRecurrenceRule's alloc()'s initRecurrenceWithFrequency:freq interval:interv |end|:theEnd\
+	if theEvent's hasRecurrenceRules() as boolean then\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf6 		set theRules to theEvent's recurrenceRules()\
+		theEvent's removeRecurrenceRule:(item 1 of theRules)\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf6 	end if\
+	theEvent's addRecurrenceRule:theRule\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf6 end addRecurrenceToEvent:frequency:interval:endsAt:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf6 \
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf6 *)}Oµ{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red76\green78\blue78;\red0\green0\blue0;\red0\green0\blue255;
+\red64\green128\blue0;\red108\green5\blue211;\red0\green22\blue176;}
+\deftab560
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 (*\
+tell script "^"\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	set theStore to fetch store\
+	set theCal to fetch calendar "Home" cal type cal local event store theStore\
+	set d1 to current date\
+	set d2 to d1 + 1 * hours\
+	set theEvent to its makeEventInStore:theStore forCalendar:theCal withSummary:"A test event" dateStart:d1 dateEnd:d2 isAllDay:false location:"Around here" notes:"some notes"\
+	its saveEvent:theEvent inStore:theStore futureEvents:true\
+	log (its propertiesOfEvent:theEvent)\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf2 end tell\
+return\
+*)\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf3 \
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\b \cf3 tell
+\b0  
+\i \cf4 script
+\i0 \cf3  "^"\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf3 	
+\b set
+\b0  \cf5 theStore\cf3  
+\b to
+\b0  
+\b \cf4 fetch store
+\b0 \cf3 \
+	
+\b set
+\b0  \cf5 theCal\cf3  
+\b to
+\b0  
+\b \cf4 fetch calendar
+\b0 \cf3  "Home" \cf4 cal type\cf3  
+\i \cf6 cal local
+\i0 \cf3  \cf4 event store\cf3  \cf5 theStore\cf3 \
+	
+\b set
+\b0  \cf5 d1\cf3  
+\b to
+\b0  (
+\b \cf7 current date
+\b0 \cf3 ) - 4 * \cf6 hours\cf3 \
+	
+\b set
+\b0  \cf5 d2\cf3  
+\b to
+\b0  \cf5 d1\cf3  + 96 * \cf6 hours\cf3 \
+	\cf2 --set d1 to current date\cf3 \
+	
+\b set
+\b0  \cf5 d2\cf3  
+\b to
+\b0  \cf5 d1\cf3  + 1 * \cf6 hours\cf3 \
+	
+\b set
+\b0  \cf5 theEvents\cf3  
+\b to
+\b0  
+\b \cf4 fetch events
+\b0 \cf3  \cf4 starting date\cf3  \cf5 d1\cf3  \cf4 ending date\cf3  \cf5 d2\cf3  \cf4 searching cals\cf3  \{\cf5 theCal\cf3 \} \cf4 event store\cf3  \cf5 theStore\cf3 \
+	\cf2 --	set theEvents to its filterEvents:theEvents summary:(missing value) location:"around Here" hasNotes:(missing value) hasAttendees:(missing value) hasAlarms:(missing value) isRecurring:(missing value) isAllDay:(missing value)\cf3 \
+	\cf2 --	set theEvents to its filterEvents:theEvents summary:"* test *" location:(missing value) useRegex:false\cf3 \
+	
+\b \cf4 event info for
+\b0 \cf3  \cf4 event\cf3  
+\i \cf4 item
+\i0 \cf3  1 
+\b of
+\b0  \cf5 theEvents\cf3 \
+	
+\b \cf4 event recurrence for
+\b0 \cf3  \cf4 event\cf3  
+\i \cf4 item
+\i0 \cf3  1 
+\b of
+\b0  \cf5 theEvents\cf3 \
+	
+\b set
+\b0  \cf5 theEvent\cf3  
+\b to
+\b0  
+\b \cf4 modify recurrence
+\b0 \cf3  \cf4 event\cf3  (
+\i \cf4 item
+\i0 \cf3  1 
+\b of
+\b0  \cf5 theEvents\cf3 ) \cf4 event frequency\cf3  
+\i \cf6 do weekly
+\i0 \cf3  \cf4 event interval\cf3  4 \cf4 repeats for\cf3  100 \cf4 repeats until\cf3  (
+\i \cf4 missing value
+\i0 \cf3 )\
+	
+\b \cf4 event recurrence for
+\b0 \cf3  \cf4 event\cf3  (
+\i \cf4 item
+\i0 \cf3  1 
+\b of
+\b0  \cf5 theEvents\cf3 )\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0  
+\b tell
+\b0 \
+}Oc{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red0\green0\blue255;\red64\green128\blue0;
+\red108\green5\blue211;}
+\deftab560
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf2 tell
+\b0  
+\i \cf3 script
+\i0 \cf2  "^"\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	
+\b set
+\b0  \cf4 theStore\cf2  
+\b to
+\b0  
+\b \cf3 fetch store
+\b0 \cf2 \
+	
+\b set
+\b0  \cf4 theCal\cf2  
+\b to
+\b0  
+\b \cf3 fetch calendar
+\b0 \cf2  "Home" \cf3 cal type\cf2  
+\i \cf5 cal local
+\i0 \cf2  \cf3 event store\cf2  \cf4 theStore\cf2 \
+	
+\b set
+\b0  \cf4 theEvent\cf2  
+\b to
+\b0  
+\i \cf3 item
+\i0 \cf2  1 
+\b of
+\b0  (
+\b \cf3 fetch events by UID
+\b0 \cf2  "9AB27194-2046-421E-944E-08A9CF8965D4" \cf3 event store\cf2  \cf4 theStore\cf2 )\
+	
+\b set
+\b0  \cf4 theEvent\cf2  
+\b to
+\b0  
+\b \cf3 modify event
+\b0 \cf2  \cf3 event\cf2  \cf4 theEvent\cf2  \cf3 destination calendar\cf2  \cf4 destCal\cf2  \cf3 event summary\cf2  (
+\i \cf3 missing value
+\i0 \cf2 ) \cf3 starting date\cf2  (
+\i \cf3 missing value
+\i0 \cf2 ) \cf3 ending date\cf2  (
+\i \cf3 missing value
+\i0 \cf2 ) \cf3 runs all day\cf2  (
+\i \cf3 missing value
+\i0 \cf2 ) \cf3 event location\cf2  (
+\i \cf3 missing value
+\i0 \cf2 ) \cf3 event description\cf2  (
+\i \cf3 missing value
+\i0 \cf2 )\
+	
+\b \cf3 store event
+\b0 \cf2  \cf3 event\cf2  \cf4 theEvent\cf2  \cf3 event store\cf2  \cf4 theStore\cf2 \
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\b \cf2 end
+\b0  
+\b tell
+\b0 \
+}O{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fnil\fcharset0 Verdana;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red64\green128\blue0;\red0\green22\blue176;\red108\green5\blue211;
+\red0\green0\blue255;\red128\green0\blue128;\red230\green0\blue0;}
+\deftab560
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 set
+\b0  \cf2 d1\cf0  
+\b to
+\b0  
+\b \cf3 current date
+\b0 \cf0 \
+
+\b set
+\b0  \cf2 d2\cf0  
+\b to
+\b0  \cf2 d1\cf0  + 1 * \cf4 hours\cf0 \
+
+\b tell
+\b0  
+\i \cf5 script
+\i0 \cf0  "^"\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\slleading22\pardirnatural\partightenfactor0
+
+\f1 \cf6 	set theStore to fetch store\
+	set theCal to fetch calendar "Home" cal type cal local event store theStore\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+
+\f0 \cf0 	
+\b set
+\b0  \cf2 theEvent\cf0  
+\b to
+\b0  (
+\b its
+\b0  \cf7 makeEventInStore\cf0 :\cf2 theStore\cf0  \cf7 forCalendar\cf0 :\cf2 theCal\cf0  \cf7 withSummary\cf0 :"summary" \cf7 dateStart\cf0 :\cf2 d1\cf0  \cf7 dateEnd\cf0 :\cf2 d2\cf0  \cf7 isAllDay\cf0 :
+\i \cf4 false
+\i0 \cf0  \cf7 location\cf0 :(
+\i \cf5 missing value
+\i0 \cf0 ) \cf7 notes\cf0 :"desc")\
+	
+\b set
+\b0  \cf2 x\cf0  
+\b to
+\b0  (
+\b its
+\b0  \cf7 propertiesOfEvent\cf0 :\cf2 theEvent\cf0 )\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\b \cf0 end
+\b0  
+\b tell
+\b0 \
+
+\b return
+\b0  \{\cf2 x\cf0 , 
+\b \cf3 current date
+\b0 \cf0 \}\
+}O5{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red76\green78\blue78;}
+\deftab560
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 (*\
+-- returns a list of records.\
+on alarmsOfEvent:theEvent\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	theEvent's hasAlarms()\
+	if theEvent's hasAlarms() as boolean then\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		set theNull to current application's NSNull's |null|()\
+		set theAlarms to theEvent's alarms()\
+		set theArray to current application's NSMutableArray's array()\
+		repeat with anAlarm in theAlarms\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			set theDict to (current application's NSMutableDictionary's dictionaryWithObjects:\{theNull, theNull, theNull, theNull\} forKeys:\{"alarm_trigger_date", "alarm_trigger_offset", "alarm_sound_name", "alarm_email_address"\})\
+			set theResult to anAlarm's absoluteDate()\
+			if theResult is not missing value then\
+\pard\pardeftab560\li2800\fi-2800\slleading22\pardirnatural\partightenfactor0
+\cf2 				(theDict's setObject:theResult forKey:"alarm_trigger_date")\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			else\
+\pard\pardeftab560\li2800\fi-2800\slleading22\pardirnatural\partightenfactor0
+\cf2 				set theResult to anAlarm's relativeOffset()\
+				if theResult is not missing value then (theDict's setObject:((theResult as real) / 60) forKey:"alarm_trigger_offset")\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			end if\
+			set theResult to anAlarm's |type|() as integer\
+			(theDict's setObject:(item (theResult + 1) of \{"display", "audio", "procedure", "email"\}) forKey:"alarm_type")\
+			if theResult = 1 then\
+\pard\pardeftab560\li2800\fi-2800\slleading22\pardirnatural\partightenfactor0
+\cf2 				set theResult to anAlarm's soundName()\
+				(theDict's setObject:theResult forKey:"alarm_sound_name")\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			else if theResult = 3 then\
+\pard\pardeftab560\li2800\fi-2800\slleading22\pardirnatural\partightenfactor0
+\cf2 				set theResult to anAlarm's emailAddress()\
+				(theDict's setObject:theResult forKey:"alarm_email_address")\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			end if\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf2 			\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			(theArray's addObject:(theDict's |copy|()))\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		end repeat\
+		return ASify from theArray\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	else\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		return \{\}\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	end if\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf2 end alarmsOfEvent:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf2 \
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf2 -- Deletes all alarms except procedure alarms (alarms that trigger files), which are untouchable.\
+on deleteAlarmsOfEvent:theEvent\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	if theEvent's hasAlarms() as boolean then\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		set theAlarms to theEvent's alarms()\
+		repeat with anAlarm in theAlarms\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			set theResult to anAlarm's |type|() as integer\
+			if theResult is not 2 then -- can't touch procedure alarms\
+\pard\pardeftab560\li2800\fi-2800\slleading22\pardirnatural\partightenfactor0
+\cf2 				(theEvent's removeAlarm:anAlarm)\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			end if\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		end repeat\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	end if\
+	return theEvent\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf2 end deleteAlarmsOfEvent:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf2 \
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf2 -- You need to pass either a date to triggerDate: or a number of minutes to triggerOffset:, and missing value to the other. If you try passing values to both, the triggerOffset will be ignored. You also need to pass the name of a sound or an email address, with missing value for the other. If you try passing values to both, the email address will be ignored. You cannot create new display or procedure alarms.\
+on addAlarmToEvent:theEvent triggerDate:theDate triggerOffset:theOffset soundName:soundN emailAddress:emailAd\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	set theAlarm to missing value\
+	if theDate is not missing value then\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		set theDate to current application's SMSForder's CocoaifyFrom:theDate\
+		set theAlarm to current application's EKAlarm's alarmWithAbsoluteDate:theDate\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	else\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		if theOffset is not missing value then\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			set theAlarm to current application's EKAlarm's alarmWithRelativeOffset:((theOffset as real) * 60.0)\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		end if\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	end if\
+	if theAlarm is missing value then return theEvent\
+	if soundN is not missing value then\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		theAlarm's setSoundName:soundN\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	else\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		if emailAd is not missing value then\
+\pard\pardeftab560\li2240\fi-2240\slleading22\pardirnatural\partightenfactor0
+\cf2 			theAlarm's setEmailAddress:emailAd\
+\pard\pardeftab560\li1680\fi-1680\slleading22\pardirnatural\partightenfactor0
+\cf2 		end if\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	end if\
+	theEvent's addAlarm:theAlarm\
+	return theEvent\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+\cf2 end addAlarmToEvent:triggerDate:triggerOffset:soundName:emailAddress:\
+*)\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\pardirnatural\partightenfactor0
+\cf0 \
+}¥<=>?@Y{16, 106}Y{1449, 0}X{488, 0}X{170, 0}Y{3189, 0}	#@¢F     	#@~ð     "A0  #@rÀ     #@mà     U1.1.2O´{\rtf1\ansi\ansicpg1252\cocoartf1504
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red64\green128\blue0;\red0\green22\blue176;
+\red108\green5\blue211;\red0\green0\blue255;}
+{\*\expandedcolortbl;\csgray\c100000;\csgenericrgb\c0\c0\c0;\csgenericrgb\c25000\c50000\c0;\csgenericrgb\c0\c8700\c69000;
+\csgenericrgb\c42300\c1800\c82800;\csgenericrgb\c0\c0\c100000;}
+\deftab560
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf2 set
+\b0  \cf3 d1\cf2  
+\b to
+\b0  
+\b \cf4 current date
+\b0 \cf2 \
+
+\b set
+\b0  \cf3 d2\cf2  
+\b to
+\b0  \cf3 d1\cf2  + 1 * \cf5 hours\cf2 \
+
+\b tell
+\b0  
+\i \cf6 script
+\i0 \cf2  "^"\
+\pard\pardeftab560\li1120\fi-1120\slleading22\pardirnatural\partightenfactor0
+\cf2 	
+\b set
+\b0  \cf3 theStore\cf2  
+\b to
+\b0  
+\b \cf6 fetch store
+\b0 \cf2 \
+	
+\b set
+\b0  \cf3 theCal\cf2  
+\b to
+\b0  
+\b \cf6 fetch calendar
+\b0 \cf2  "Home" \cf6 cal type\cf2  \cf5 cal local\cf2  \cf6 event store\cf2  \cf3 theStore\cf2 \
+	
+\b set
+\b0  \cf3 theEvent\cf2  
+\b to
+\b0  (
+\b \cf6 create event
+\b0 \cf2  \cf6 event store\cf2  \cf3 theStore\cf2  \cf6 destination calendar\cf2  \cf3 theCal\cf2  \cf6 event summary\cf2  "summary" \cf6 starting date\cf2  \cf3 d1\cf2  \cf6 ending date\cf2  \cf3 d2\cf2  \cf6 event location\cf2  
+\i \cf6 missing value
+\i0 \cf2  \cf6 event description\cf2  "desc" 
+\b without
+\b0  \cf6 runs all day\cf2 )\
+	
+\b set
+\b0  \cf3 x\cf2  
+\b to
+\b0  (
+\b \cf6 event info for
+\b0 \cf2  \cf6 event\cf2  \cf3 theEvent\cf2 )\
+\pard\pardeftab560\li560\fi-560\slleading22\pardirnatural\partightenfactor0
+
+\b \cf2 end
+\b0  
+\b tell
+\b0 \
+
+\b return
+\b0  \{\cf3 x\cf2 , 
+\b \cf4 current date
+\b0 \cf2 \}\
+}#@Œ0     #@”°     _au.com.myriad-com.{LIB-NAME}Q2_au.com.myriad-com.{LIB-NAME}		_ScriptingDictionary.sdef#@i      #@Œð     _au.com.myriad-com.{LIB-NAME}	 X{412, 0}	Z{18709, 0}#@œÌ     			  g ‚ œ ³ Á Î ã ð5R\q}•­Êãõ6Vh‡™°Éãù*Ib~“ª¹Öé,9Uhmnpq}€†´ m&Ô,óJ,J2J<JFJOJXJbJcJlJmJnJoJxJ}J†JJ•J–J—QOQXQaQ€Q‚Q¡Q¢Q£Q¾QÇQÐQïQðQñQóQõQþQÿR RRRRR             f              R
